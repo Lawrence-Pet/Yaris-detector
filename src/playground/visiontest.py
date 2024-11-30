@@ -39,17 +39,22 @@ while True:
             # bounding box
             x1, y1, x2, y2 = box.xyxy[0]
             x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2) # convert to int values
+              # class name
+            cls = int(box.cls[0])
+            print("Class name -->", classNames[cls])
+            class_color = (0,0,255) #red regular
+
+            # Statement to do action based on detection of certain object
+            if classNames[cls] == 'cell phone': class_color = (0,255,0)
 
             # put box in cam
-            cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 255), 3)
+            cv2.rectangle(img, (x1, y1), (x2, y2), class_color, 3)
 
             # confidence
             confidence = math.ceil((box.conf[0]*100))/100
             print("Confidence --->",confidence)
 
-            # class name
-            cls = int(box.cls[0])
-            print("Class name -->", classNames[cls])
+          
 
             # object details
             org = [x1, y1]
