@@ -6,3 +6,5 @@ small car in Europe with 4 stars and 29 points. Detecting this car in traffic ma
 prove useful in terms of increasing safety.
 
 > "If you're not in a Yaris, you should definitely follow one!"
+
+TODO: Make this description better!
