@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 import logging
 
 # Configure logging
-logging.basicConfig(filename="image_fetcher.log", level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename="image_fetcher.log", level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 load_dotenv()
@@ -17,8 +17,11 @@ PAGES = 10
 
 items_list = []
 
-for START in range (1, PAGES+1):
-    url = f"https://www.googleapis.com/customsearch/v1?q={QUERY}&cx={CX}&searchType=image&key={API_KEY}&start={START}"
+logger.info(f"*** INITATING new query: {QUERY} for {PAGES} pages.")
+
+for START in range (PAGES):
+    url = f"https://www.googleapis.com/customsearch/v1?q={QUERY}&cx={CX}&searchType=image&key={API_KEY}&start={1+START*10}"
+    logger.debug(f"Page: {1+START*10}")
     response = requests.get(url).json()
 
     if "error" in response:
@@ -26,18 +29,15 @@ for START in range (1, PAGES+1):
         logger.debug(f"API Key: {API_KEY}")
         logger.debug(f"CX: {CX}")
 
-        with open('error_response.json', 'w') as f:
-            json.dump(response, f, indent=4)
-
     for item in response.get('items', []):
         items_list.append(item)
 
 # Ends script if no items in itemlist
 if len(items_list) == 0: 
-    logger.warning("No items in itemlist.")
+    logger.warning("No items in itemlist.\n")
     exit()
 
-logger.info(f"Counting {len(items_list)} results from query.")
+logger.info(f"Counting {len(items_list)} results from query.\n")
 
 output = {"items": items_list}
     
