@@ -13,7 +13,7 @@ load_dotenv()
 API_KEY=os.getenv('GOOGLE_SEARCH_CLOUD_KEY')
 CX = os.getenv('GOOGLE_SEARCH_ENGINE_ID')
 QUERY = "toyota yaris xp10"
-PAGES = 10
+PAGES = 50
 
 items_list = []
 
@@ -21,7 +21,7 @@ logger.info(f"*** INITATING new query: {QUERY} for {PAGES} pages.")
 
 for START in range (PAGES):
     url = f"https://www.googleapis.com/customsearch/v1?q={QUERY}&cx={CX}&searchType=image&key={API_KEY}&start={1+START*10}"
-    logger.debug(f"Page: {1+START*10}")
+    logger.info(f"Page: {1+START*10}")
     response = requests.get(url).json()
 
     if "error" in response:
